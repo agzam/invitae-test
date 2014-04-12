@@ -1,0 +1,67 @@
+link(rel='stylesheet', href='styles/home.css')
+.main-wrapper(ng-init="chooseDepartment(data[0])")
+    .sidebar-wrapper
+        ag-sidebar(data="dataByCompanies")
+    .page-content-wrapper
+        .container.col-xs-12
+            ul.nav.nav-tabs.nav-justified
+                li(ng-repeat="d in data", ng-class="{'active' : d == selectedDepartment}" )
+                    a(ng-click="chooseDepartment(d)", ng-style="tabColor(d)") {{d.department}}
+            .well.selectedDepartment.text-center.fade-effect(ng-style="{'background-color' : selectedDepartment.color }", ng-if='selectedDepartment')
+                .center-block
+                    .fade-effect.h3(style='text-transform: capitalize', ng-if='selectedDepartment') {{selectedDepartment.department}} Department
+                .row.center-block.container
+                    .col-md-6(ng-if='selectedDepartment') Number of Items:
+                        span &nbsp;{{selectedDepartment.inStockCount}}
+                    .col-md-6(ng-if='selectedDepartment') Total Budget:
+                        span &nbsp;{{selectedDepartment.toDateSpent | currency}}
+
+            .well.container-fluid.prod-info(ng-show='selectedItem')
+                .row-fluid
+                    .col-md-2.pict
+                        img(src="http://lorempixel.com/130/130")
+
+                    .row-fluid
+                        .col-md-5
+                            .row
+                                .label Company:
+                                span {{selectedItem.sourceCompany}}
+                            .row
+                                .label Phone
+                                span {{selectedItem.phone}}
+                        .col-md-5
+                            .row
+                                .label Owner:
+                                span {{selectedItem.owner.name}}
+                            .row
+                                .label Email:
+                                span {{selectedItem.email}}
+                    .row-fluid
+                        .col-md-5
+                            .row(style='margin-bottom:20px')
+                                .label Department:
+                                span {{selectedItem.department}}
+                            .row
+                                .label In Stock count:
+                                span {{selectedItem.inStockCount}}
+                                .itemOpButtons
+                                    div(ng-click='addItem()') +
+                                    div(ng-click='subtractItem()') -
+                            .row
+                                .label Initial Order Date:
+                                span {{selectedItem.initialOrderDate | date:'medium'}}
+                        .col-md-5
+                            .row(style='margin-bottom:20px')
+                                .label Active:
+                                span {{selectedItem.isActive}}
+                            .row
+                                .label To Date Spent:
+                                span {{selectedItem.toDateSpent | currency}}
+                            .row
+                                .label Cost per Unit:
+                                span {{selectedItem.costPerUnit | currency}}
+
+            .well.fade-effect(style='background:#FDE0E0; color:red', ng-if='cannotSubtractMore')
+                p.text-center(style='font-size:x-large') Ouch! At least one item should remain on stock.
+
+

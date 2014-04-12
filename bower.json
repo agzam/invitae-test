@@ -1,0 +1,22 @@
+{
+  "name": "yetAnotherWebApp2",
+  "version": "1.0.0",
+  "authors": [
+    "Ag Ibragimov <agzam.ibragimov@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "src/lib/vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "latest",
+    "angular-route": "latest",
+    "bootstrap": "~3.1.1"
+  }
+}

@@ -1,0 +1,19 @@
+.col-md-12.sidebar
+    .sidebar-header
+        input(type='search',class='form-control',placeholder='filter by company', ng-model="search.sourceCompany")
+        hr
+    .sidebar-content.container-fluid
+        ul
+            li.animation(ng-repeat="d in data['true'] | filter:search", ng-if="active", ng-click="chooseItem(d)")
+                .row
+                    .col-sm-7 {{d.sourceCompany}}
+                    .pull-right(style='text-align=right') {{d.inStockCount}}
+
+        .toggle-active-btn(ng-click="toggleActive()")
+           .text-center{{toggleActiveLabel}}
+
+        ul
+            li.animation(ng-repeat="d in data['false'] | filter:search", ng-if="!active", ng-click="chooseItem(d)")
+                .row
+                    .col-sm-7.strike {{d.sourceCompany}}
+                    .pull-right.strike(style='text-align=right') {{d.inStockCount}}
