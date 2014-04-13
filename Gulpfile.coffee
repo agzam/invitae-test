@@ -7,6 +7,8 @@ browserify = require "gulp-browserify"
 rename = require "gulp-rename"
 uglify = require "gulp-uglify"
 ngmin = require 'gulp-ngmin'
+bower = require 'gulp-bower'
+
 runSequence = require 'run-sequence'
 
 gulp.task "compile:server", ->
@@ -25,6 +27,8 @@ gulp.task "compile:client",->
        ).pipe(rename 'app.js')
 
     gulp.src(['src/client/assets/**/*.*']).pipe(gulp.dest 'bin/public/assets')
+
+    bower()
 
     if process.env.NODE_ENV is 'production'
         console.log "running on production, will be minifiying javascript"
@@ -47,14 +51,19 @@ gulp.task "clean",->
 
 
 gulp.task "nodemon",->
-   ndm = nodemon
-        script: 'bin/server/server.js',
-        watch: ['src']
-        ext: 'coffee jade styl'
+   if process.env.NODE_ENV isnt 'production'
+      ndm = nodemon
+          script: 'bin/server/server.js',
+          watch: ['src']
+          ext: 'coffee jade styl'
 
-   ndm
-   .on('change', ['compile:server','compile:client'])
-   .on 'restart', -> console.log('restarting server')
+       ndm
+       .on('change', ['compile:server','compile:client'])
+       .on 'restart', -> console.log('restarting server')
+   else
+       nodemon
+           script: 'bin/server/server.js'
+
 
 
 gulp.task 'dev:run',->  runSequence 'clean', 'compile:server', 'compile:client', 'nodemon'
